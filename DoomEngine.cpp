@@ -2,7 +2,7 @@
 
 using namespace std;
 
-DoomEngine::DoomEngine() : m_bIsOver(false), m_iRenderWidth(320), m_iRenderHeight(200)
+DoomEngine::DoomEngine() : m_iRenderWidth(320), m_iRenderHeight(200), m_bIsOver(false)
 {
     m_pMap = new Map("E1M1");
 }
@@ -16,6 +16,7 @@ bool DoomEngine::Init()
 {
     m_WADLoader.SetWADFilePath(GetWADFileName());
     m_WADLoader.LoadWAD();
+
     m_WADLoader.LoadMapData(m_pMap);
     return true;
 }
@@ -29,6 +30,7 @@ void DoomEngine::Render(SDL_Renderer *pRenderer)
 {
     SDL_SetRenderDrawColor(pRenderer, 0x00, 0x00, 0x00, 0x00);
     SDL_RenderClear(pRenderer);
+    m_pMap->RenderAutoMap(pRenderer);
 }
 
 void DoomEngine::KeyPressed(SDL_Event &event)

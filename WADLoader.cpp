@@ -118,7 +118,7 @@ bool WADLoader::LoadMapData(Map *pMap)
 
 int WADLoader::FindMapIndex(Map *pMap)
 {
-    for (int i = 0; i < m_WADDirectories.size(); ++i)
+    for (size_t i = 0; i < m_WADDirectories.size(); ++i)
     {
         if (m_WADDirectories[i].LumpName == pMap->GetName())
         {
@@ -155,7 +155,7 @@ bool WADLoader::ReadMapVertex(Map *pMap)
 
         pMap->AddVertex(vertex);
 
-        // cout << "("  << vertex.XPosition << "," << vertex.YPosition << ")" << endl;
+        // cout << "(X: "  << vertex.XPosition << ", Y: " << vertex.YPosition << ")" << endl;
         // std::cout << std::endl;
     }
 
@@ -188,14 +188,13 @@ bool WADLoader::ReadMapLinedef(Map *pMap)
 
         pMap->AddLinedef(linedef);
 
-        // cout << linedef.StartVertex << endl;
-        // cout << linedef.EndVertex << endl;
-        // cout << linedef.Flags << endl;
-        // cout << linedef.LineType << endl;
-        // cout << linedef.SectorTag << endl;
-        // cout << linedef.RightSidedef << endl;
-        // cout << linedef.LeftSidedef << endl;
-
+        // cout << "Start Vertex: " << linedef.StartVertex << endl;
+        // cout << "End Vertex: " << linedef.EndVertex << endl;
+        // cout << "Flags: " << linedef.Flags << endl;
+        // cout << "Line Type: " << linedef.LineType << endl;
+        // cout << "Sector Tag: " << linedef.SectorTag << endl;
+        // cout << "Right Side: " << linedef.RightSidedef << endl;
+        // cout << "Left Side: " << linedef.LeftSidedef << endl << endl;
         // std::cout << std::endl;
     }
 

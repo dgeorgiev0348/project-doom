@@ -10,7 +10,7 @@ class DoomEngine
 {
     public: 
         DoomEngine();
-        ~DoomEngine();
+        virtual ~DoomEngine();
 
         virtual void Render(SDL_Renderer *pRenderer); // draw something to show on screen
         virtual void KeyPressed(SDL_Event &event); // which keys are pressed

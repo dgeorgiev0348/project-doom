@@ -4,7 +4,8 @@
 
 enum EMAPLUMPSINDEX
 {
-    eTHINGS = 1,
+    eName,
+    eTHINGS,
     eLINEDEFS,
     eSIDEDDEFS,
     eVERTEXES,
@@ -19,15 +20,15 @@ enum EMAPLUMPSINDEX
 
 enum ELINEDEFFLAGS
 {
-    eBLOCKING      = 0,
+    eBLOCKING = 0,
     eBLOCKMONSTERS = 1,
-    eTWOSIDED      = 2,
-    eDONTPEGTOP    = 4,
+    eTWOSIDED = 2,
+    eDONTPEGTOP = 4,
     eDONTPEGBOTTOM = 8,
-    eSECRET        = 16,
-    eSOUNDBLOCK    = 32,
-    eDONTDRAW      = 64,
-    eDRAW          = 128
+    eSECRET = 16,
+    eSOUNDBLOCK = 32,
+    eDONTDRAW = 64,
+    eDRAW = 128
 };
 
 struct Header
@@ -46,8 +47,8 @@ struct Directory
 
 struct Vertex
 {
-    uint16_t XPosition;
-    uint16_t YPosition;
+    int16_t XPosition;
+    int16_t YPosition;
 };
 
 struct Linedef
@@ -57,6 +58,6 @@ struct Linedef
     uint16_t Flags;
     uint16_t LineType;
     uint16_t SectorTag;
-    uint16_t RightSidedef;
-    uint16_t LeftSidedef;
+    uint16_t RightSidedef; //0xFFFF means there is no sidedef
+    uint16_t LeftSidedef;  //0xFFFF means there is no sidedef
 };
