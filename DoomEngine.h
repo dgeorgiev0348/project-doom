@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Map.h"
+#include "Player.h"
 #include "WADLoader.h"
 
 class DoomEngine
@@ -36,4 +37,5 @@ class DoomEngine
 
         WADLoader m_WADLoader; // game engine will own the loader
         Map *m_pMap; // game engine will own the map
+        Player *m_pPlayer;
 };

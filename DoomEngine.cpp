@@ -4,7 +4,8 @@ using namespace std;
 
 DoomEngine::DoomEngine() : m_iRenderWidth(320), m_iRenderHeight(200), m_bIsOver(false)
 {
-    m_pMap = new Map("E1M1");
+    m_pPlayer = new Player(1);
+    m_pMap = new Map("E1M1", m_pPlayer);
 }
 
 DoomEngine::~DoomEngine()
@@ -16,6 +17,7 @@ bool DoomEngine::Init()
 {
     m_WADLoader.SetWADFilePath(GetWADFileName());
     m_WADLoader.LoadWAD();
+
 
     m_WADLoader.LoadMapData(m_pMap);
     return true;
@@ -39,15 +41,20 @@ void DoomEngine::KeyPressed(SDL_Event &event)
     {
     case SDLK_UP:
         break;
+
     case SDLK_DOWN:
         break;
+
     case SDLK_LEFT:
         break;
+
     case SDLK_RIGHT:
         break;
+
     case SDLK_ESCAPE:
         Quit();
         break;
+
     default:
         break;
     }
@@ -57,13 +64,14 @@ void DoomEngine::KeyReleased(SDL_Event &event)
 {
 }
 
-void DoomEngine::Quit()
+void  DoomEngine::Quit()
 {
     m_bIsOver = true;
 }
 
 void DoomEngine::Update()
 {
+
 }
 
 bool DoomEngine::IsOver()
@@ -83,7 +91,7 @@ int DoomEngine::GetRenderHeight()
 
 string DoomEngine::GetName()
 {
-    return "Project-Doom";
+    return "DIYDoom";
 }
 
 int DoomEngine::GetTimePerFrame()

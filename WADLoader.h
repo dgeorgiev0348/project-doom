@@ -24,6 +24,7 @@ class WADLoader
         bool ReadDirectories(); // A function what will iterate through the directory section
         bool ReadMapVertex(Map *pMap);
         bool ReadMapLinedef(Map *pMap);
+        bool ReadMapThings(Map *pMap);
         int FindMapIndex(Map *pMap);
 
         std::string m_sWADFilePath; // Store the file name passed to the constructor

@@ -18,6 +18,7 @@ Game::~Game()
 
 bool Game::Init()
 {
+    //Initialize SDL
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
         std::cout << "SDL failed to initialize! SDL_Error: " << SDL_GetError() << std::endl;
@@ -58,19 +59,22 @@ bool Game::Init()
 void Game::ProcessInput()
 {
     SDL_Event event;
-    while (SDL_PollEvent(&event))
-    {
-        switch (event.type)
+    while (SDL_PollEvent(&event)) {
         {
-        case SDL_KEYDOWN:
-            m_pDoomEngine->KeyPressed(event);
-            break;
-        case SDL_KEYUP:
-            m_pDoomEngine->KeyReleased(event);
-            break;
-        case SDL_QUIT:
-            m_pDoomEngine->Quit();
-            break;
+            switch (event.type)
+            {
+            case SDL_KEYDOWN:
+                m_pDoomEngine->KeyPressed(event);
+                break;
+
+            case SDL_KEYUP:
+                m_pDoomEngine->KeyReleased(event);
+                break;
+
+            case SDL_QUIT:
+                m_pDoomEngine->Quit();
+                break;
+            }
         }
     }
 }
@@ -80,6 +84,7 @@ void Game::Render()
     SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 0xff);
     SDL_RenderClear(m_pRenderer);
 
+    //Game objects to draw themselves
     m_pDoomEngine->Render(m_pRenderer);
 
     SDL_RenderPresent(m_pRenderer);
