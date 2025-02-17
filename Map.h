@@ -11,21 +11,24 @@
 class Map
 {
     public:
-        Map(std::string sName, Player *pPlayer);
+        Map(SDL_Renderer *pRenderer, std::string sName, Player *pPlayer);
         ~Map();
 
         std::string GetName();
         void AddVertex(Vertex &v);
         void AddLinedef(Linedef &l);
         void AddThing(Thing &thing);
-        void RenderAutoMap(SDL_Renderer *pRenderer);
-        void RenderAutoMapPlayer(SDL_Renderer *pRenderer, int iXShift, int iYShift);
-        void RenderAutoMapWalls(SDL_Renderer *pRenderer, int iXShift, int iYShift);
+        void RenderAutoMap();
+        void RenderAutoMapPlayer();
+        void RenderAutoMapWalls();
         void SetLumpIndex(int iIndex);
 
         int GetLumpIndex();
 
     protected:
+        int RemapXToScreen(int XMapPosition);
+        int RemapYToScreen(int YMapPosition);
+        
         std::string m_sName;
         std::vector<Vertex> m_Vertexes;
         std::vector<Linedef> m_Linedefs;
@@ -35,8 +38,12 @@ class Map
         int m_XMax;
         int m_YMin;
         int m_YMax;
+        int m_iRenderXSize;
+        int m_iRenderYSize;
         int m_iAutoMapScaleFactor;
         int m_iLumpIndex;
+
+        SDL_Renderer *m_pRenderer;
 
         Player *m_pPlayer;
 };

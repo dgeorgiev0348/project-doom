@@ -10,10 +10,10 @@
 class DoomEngine
 {
     public: 
-        DoomEngine();
+        DoomEngine(SDL_Renderer *pRenderer);
         virtual ~DoomEngine();
 
-        virtual void Render(SDL_Renderer *pRenderer); // draw something to show on screen
+        virtual void Render(); // draw something to show on screen
         virtual void KeyPressed(SDL_Event &event); // which keys are pressed
         virtual void KeyReleased(SDL_Event &event); // which keys are released
         virtual void Quit(); // close and shutdown the game
@@ -35,6 +35,7 @@ class DoomEngine
 
         bool m_bIsOver;
 
+        SDL_Renderer *m_pRenderer;
         WADLoader m_WADLoader; // game engine will own the loader
         Map *m_pMap; // game engine will own the map
         Player *m_pPlayer;

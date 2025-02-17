@@ -1,7 +1,5 @@
 #include "WADReader.h"
 #include <cstring>
-#include <iostream>
-#include <iomanip>
 
 WADReader::WADReader()
 {
@@ -24,6 +22,11 @@ uint32_t WADReader::Read4Bytes(const uint8_t *pWADData, int offset)
     std::memcpy(&ReadValue, pWADData + offset, sizeof(uint32_t));
     return ReadValue;
 }
+
+// uint32_t WADReader::Read4Bytes(const uint8_t *pWADData, int offset)
+// {
+//     return (pWADData[offset + 3] << 24) | (pWADData[offset + 2] << 16) | (pWADData[offset + 1] << 8) | pWADData[offset];
+// }
 
 void WADReader::ReadHeaderData(const uint8_t *pWADData, int offset, Header &header)
 {
@@ -63,7 +66,10 @@ void WADReader::ReadDirectoryData(const uint8_t *pWADData, int offset, Directory
 
 void WADReader::ReadVertexData(const uint8_t *pWADData, int offset, Vertex &vertex)
 {
+    //0x00 to 0x01
     vertex.XPosition = Read2Bytes(pWADData, offset);
+
+    //0x02 to 0x03
     vertex.YPosition = Read2Bytes(pWADData, offset + 2);
 }
 
