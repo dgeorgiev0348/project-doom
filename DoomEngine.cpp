@@ -92,7 +92,7 @@ int DoomEngine::GetRenderHeight()
 
 string DoomEngine::GetName()
 {
-    return "DIYDoom";
+    return "Project-DOOM";
 }
 
 int DoomEngine::GetTimePerFrame()

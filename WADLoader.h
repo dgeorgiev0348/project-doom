@@ -25,6 +25,8 @@ class WADLoader
         bool ReadMapVertex(Map *pMap);
         bool ReadMapLinedef(Map *pMap);
         bool ReadMapThings(Map *pMap);
+        bool ReadMapNodes(Map *pMap);
+        
         int FindMapIndex(Map *pMap);
 
         std::string m_sWADFilePath; // Store the file name passed to the constructor
