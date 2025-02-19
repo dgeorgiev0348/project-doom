@@ -4,7 +4,9 @@
 
 using namespace std;
 
-Map::Map(SDL_Renderer *pRenderer, std::string sName, Player *pPlayer) : m_pRenderer(pRenderer), m_sName(sName), m_XMin(INT_MAX), m_XMax(INT_MIN), m_YMin(INT_MAX), m_YMax(INT_MIN), m_iAutoMapScaleFactor(15), m_iLumpIndex(-1), m_pPlayer(pPlayer)
+Map::Map(SDL_Renderer *pRenderer, std::string sName, Player *pPlayer) : 
+    m_sName(sName), m_XMin(INT_MAX), m_XMax(INT_MIN), m_YMin(INT_MAX), m_YMax(INT_MIN), 
+    m_iAutoMapScaleFactor(15), m_iLumpIndex(-1), m_pRenderer(pRenderer), m_pPlayer(pPlayer)
 {
     SDL_RenderGetLogicalSize(m_pRenderer, &m_iRenderXSize, &m_iRenderYSize);
     --m_iRenderXSize;
