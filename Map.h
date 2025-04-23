@@ -17,7 +17,7 @@ It also provides functions for rendering the automap and transforming map coordi
 class Map
 {
     public:
-        // constructor that nitializes the map with a renderer, name, and player reference
+        // constructor that initializes the map with a renderer, name, and player reference
         Map(SDL_Renderer *pRenderer, std::string sName, Player *pPlayer);
         ~Map(); // destructor that cleans up any allocated resources
 
@@ -27,16 +27,22 @@ class Map
         void AddThing(Thing &thing);            // add a new thing to the map
         void AddNode(Node &node);               // add a new BSP tree node to the map
         void RenderAutoMap();                   // render the entire automap
-        void RenderAutoMapPlayer();             // render the player on the automap
-        void RenderAutoMapWalls();              // render the walls on the automap
-        void RenderAutoMapNode();               // render the BSP three nodes on the automap
         void SetLumpIndex(int iIndex);          // set the lump index for the map data
 
         int GetLumpIndex();                     // retrieves the lump index for the map data
 
     protected:
+        void RenderAutoMapPlayer();             // render the player on the automap
+        void RenderAutoMapWalls();              // render the walls on the automap
+        void RenderBSPNodes();
+        void RenderAutoMapNode(int iNodeID);    // render the BSP three nodes on the automap
+        void RenderBSPNodes(int iNodeID);
+        void RenderSubsector(int iSubsectorID);
+
         int RemapXToScreen(int XMapPosition);   // convert the map's X coordinate to screen space
         int RemapYToScreen(int YMapPosition);   // convert the map's X coordinate to screen space
+
+        bool IsPointOnLeftSide(int XPosition, int YPosition, int iNodeID);
         
         std::string m_sName;                    // name of the map
         std::vector<Vertex> m_Vertexes;         // collection of map vertices

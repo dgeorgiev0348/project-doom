@@ -122,7 +122,49 @@ void Map::RenderAutoMap()
 {
     RenderAutoMapWalls();  // Draw the map geometry.
     RenderAutoMapPlayer(); // Draw the player's current position.
-    RenderAutoMapNode();   // Draw diagnostic information for the last BSP node (for debugging).
+    RenderBSPNodes();   // Draw diagnostic information for the last BSP node (for debugging).
+}
+
+void Map::RenderBSPNodes()
+{
+    RenderBSPNodes(m_Nodes.size() - 1);
+}
+
+void Map::RenderBSPNodes(int iNodeID)
+{
+    // Masking all the bits exipt the last one
+    // to check if this is a subsector
+    if (iNodeID & SUBSECTORIDENTIFIER)
+    {
+        RenderSubsector(iNodeID & (~SUBSECTORIDENTIFIER));
+        return;
+    }
+
+    bool isOnLeft = IsPointOnLeftSide(m_pPlayer->GetXPosition(), m_pPlayer->GetYPosition(), iNodeID);
+
+    if (isOnLeft)
+    {
+        RenderBSPNodes(m_Nodes[iNodeID].LeftChildID);
+        RenderBSPNodes(m_Nodes[iNodeID].RightChildID);
+    }
+    else
+    {
+        RenderBSPNodes(m_Nodes[iNodeID].RightChildID);
+        RenderBSPNodes(m_Nodes[iNodeID].LeftChildID);
+    }
+}
+
+void Map::RenderSubsector(int iSubsectorID)
+{
+
+}
+
+bool Map::IsPointOnLeftSide(int XPosition, int YPosition, int iNodeID)
+{
+    int dx = XPosition - m_Nodes[iNodeID].XPartition;
+    int dy = YPosition - m_Nodes[iNodeID].YPartition;
+
+    return (((dx * m_Nodes[iNodeID].ChangeYPartition) - (dy * m_Nodes[iNodeID].ChangeXPartition)) <= 0);
 }
 
 // renders the player's position marker on the automap
@@ -178,59 +220,35 @@ void Map::RenderAutoMapWalls()
 }
 
 // renders debug visualization for the last added BSP node (bounding boxes, partition line)
-void Map::RenderAutoMapNode()
+void Map::RenderAutoMapNode(int iNodeID)
 {
-    // If there are no nodes, do nothing.
-    if (m_Nodes.empty()) {
-        return;
-    }
-
-    // Get the last node added to the list (often the root or a recently processed node in BSP building).
-    Node node = m_Nodes.back(); // Use back() for potentially better efficiency than m_Nodes[m_Nodes.size()-1]
-
-    // Calculate the screen coordinates for the Right Bounding Box.
-    // Note: Need to handle width/height calculation carefully after remapping.
-    // Adding +1 might be necessary if coordinates represent pixels and rect expects width/height.
-    int rightBoxScreenX = RemapXToScreen(node.RightBoxLeft);
-    int rightBoxScreenY = RemapYToScreen(node.RightBoxTop); // Top Y in map space becomes larger screen Y
-    int rightBoxScreenW = RemapXToScreen(node.RightBoxRight) - rightBoxScreenX + 1;
-    int rightBoxScreenH = RemapYToScreen(node.RightBoxBottom) - rightBoxScreenY + 1; // Height calculation needs care due to Y flipping
+    Node node = m_Nodes[iNodeID];
 
     SDL_Rect RightRect = {
-        rightBoxScreenX,
-        rightBoxScreenY, // This is the top-left corner in screen space
-        rightBoxScreenW,
-        rightBoxScreenH
+        RemapXToScreen(node.RightBoxLeft),
+        RemapYToScreen(node.RightBoxTop),
+        RemapXToScreen(node.RightBoxRight) - RemapXToScreen(node.RightBoxLeft) + 1,
+        RemapYToScreen(node.RightBoxBottom) - RemapYToScreen(node.RightBoxTop) + 1
     };
-
-    // Calculate the screen coordinates for the Left Bounding Box.
-    int leftBoxScreenX = RemapXToScreen(node.LeftBoxLeft);
-    int leftBoxScreenY = RemapYToScreen(node.LeftBoxTop);
-    int leftBoxScreenW = RemapXToScreen(node.LeftBoxRight) - leftBoxScreenX + 1;
-    int leftBoxScreenH = RemapYToScreen(node.LeftBoxBottom) - leftBoxScreenY + 1;
 
     SDL_Rect LeftRect = {
-        leftBoxScreenX,
-        leftBoxScreenY, // Top-left corner in screen space
-        leftBoxScreenW,
-        leftBoxScreenH
+        RemapXToScreen(node.LeftBoxLeft),
+        RemapYToScreen(node.LeftBoxTop),
+        RemapXToScreen(node.LeftBoxRight) - RemapXToScreen(node.LeftBoxLeft) + 1,
+        RemapYToScreen(node.LeftBoxBottom) - RemapYToScreen(node.LeftBoxTop) + 1
     };
 
-    // Draw the Right Bounding Box in Green.
-    SDL_SetRenderDrawColor(m_pRenderer, 0, 255, 0, SDL_ALPHA_OPAQUE); // Green
+    SDL_SetRenderDrawColor(m_pRenderer, 0, 255, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderDrawRect(m_pRenderer, &RightRect);
-
-    // Draw the Left Bounding Box in Red.
-    SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, SDL_ALPHA_OPAQUE); // Red
+    SDL_SetRenderDrawColor(m_pRenderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderDrawRect(m_pRenderer, &LeftRect);
 
-    // Draw the Partition Line in Blue.
-    SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 255, SDL_ALPHA_OPAQUE); // Blue
+    SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderDrawLine(m_pRenderer,
-        RemapXToScreen(node.XPartition),                     // Start X of partition line
-        RemapYToScreen(node.YPartition),                     // Start Y of partition line
-        RemapXToScreen(node.XPartition + node.ChangeXPartition), // End X of partition line
-        RemapYToScreen(node.YPartition + node.ChangeYPartition)); // End Y of partition line
+        RemapXToScreen(node.XPartition),
+        RemapYToScreen(node.YPartition),
+        RemapXToScreen(node.XPartition + node.ChangeXPartition),
+        RemapYToScreen(node.YPartition + node.ChangeYPartition));
 }
 
 

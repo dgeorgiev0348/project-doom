@@ -6,6 +6,9 @@ This file defines the structures and enumerations used for parsing and handling 
 
 #include <cstdint> // include for fixed-width integer types
 
+// subsector identifier is the 16th bit that indicates if the node ID is a subsector (node ID is stored as uint16)
+#define SUBSECTORIDENTIFIER 0x8000 // 0x8000 in binary 1000000000000000
+
 // enum representing different lump indices in a WAD file
 enum EMAPLUMPSINDEX
 {
