@@ -13,7 +13,7 @@ Game::Game() : m_iWindowWidth(1280), m_iWindowHeight(800)
 {
 }
 
-// dsctructor that cleans up resources and shuts down SDL
+// desctructor that cleans up resources and shuts down SDL
 Game::~Game()
 {
     delete m_pDoomEngine;               // free memory allocated for DoomEngine

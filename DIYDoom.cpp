@@ -1,5 +1,5 @@
 /*
-This is the main entry point for the Doom remake, initializing the game and running the main loop, 
+This is the main entry point for the game, initializing the game and running the main loop, 
 which processes input, updates game logic, renders frames, and manages timing.
 */
 
