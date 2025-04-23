@@ -26,6 +26,8 @@ class WADLoader
         bool ReadMapLinedef(Map *pMap);                 // read linedef data from WAD file
         bool ReadMapThings(Map *pMap);                  // read things data from WAD file
         bool ReadMapNodes(Map *pMap);                   // read BSP node data from WAD file
+        bool ReadMapSubsectors(Map *pMap);
+        bool ReadMapSegs(Map *pMap);
         
         int FindMapIndex(Map *pMap);                    // find the index of a specific map
 

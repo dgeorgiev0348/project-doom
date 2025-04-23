@@ -91,6 +91,16 @@ void Map::AddNode(Node &node)
     m_Nodes.push_back(node);
 }
 
+void Map::AddSubsector(Subsector &subsector)
+{
+    m_Subsector.push_back(subsector);
+}
+
+void Map::AddSeg(Seg &seg)
+{
+    m_Segs.push_back(seg);
+}
+
 // returns the name of the map
 string Map::GetName()
 {
@@ -156,7 +166,21 @@ void Map::RenderBSPNodes(int iNodeID)
 
 void Map::RenderSubsector(int iSubsectorID)
 {
+    Subsector subsector = m_Subsector[iSubsectorID];
+    SDL_SetRenderDrawColor(m_pRenderer, rand() % 255, rand() % 255, rand() % 255, SDL_ALPHA_OPAQUE);
 
+    for (int i = 0; i < subsector.SegCount; i++)
+    {
+        Seg seg = m_Segs[subsector.FirstSegID + i];
+        SDL_RenderDrawLine(m_pRenderer,
+            RemapXToScreen(m_Vertexes[seg.StartVertexID].XPosition),
+            RemapYToScreen(m_Vertexes[seg.StartVertexID].YPosition),
+            RemapXToScreen(m_Vertexes[seg.EndVertexID].XPosition),
+            RemapYToScreen(m_Vertexes[seg.EndVertexID].YPosition));
+    }
+
+    // SDL_RenderPresent(m_pRenderer); 
+    // SDL_Delay(100);
 }
 
 bool Map::IsPointOnLeftSide(int XPosition, int YPosition, int iNodeID)

@@ -26,6 +26,8 @@ class Map
         void AddLinedef(Linedef &l);            // add a new linedef to the map
         void AddThing(Thing &thing);            // add a new thing to the map
         void AddNode(Node &node);               // add a new BSP tree node to the map
+        void AddSubsector(Subsector &subsector);
+        void AddSeg(Seg &seg);
         void RenderAutoMap();                   // render the entire automap
         void SetLumpIndex(int iIndex);          // set the lump index for the map data
 
@@ -49,6 +51,8 @@ class Map
         std::vector<Linedef> m_Linedefs;        // collection of map walls
         std::vector<Thing> m_Things;            // collection of map things
         std::vector<Node> m_Nodes;              // BSP tree nodes for rendering
+        std::vector<Subsector> m_Subsector;
+        std::vector<Seg> m_Segs;
 
         int m_XMin;                             // minimum X coordinate of the map
         int m_XMax;                             // maximum X coordinate of the map
